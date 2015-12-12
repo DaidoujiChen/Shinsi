@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5402383F1C1BC45300BD7DFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5402383E1C1BC45300BD7DFB /* AppDelegate.swift */; };
+		540238411C1BC45300BD7DFB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540238401C1BC45300BD7DFB /* ViewController.swift */; };
+		540238441C1BC45300BD7DFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 540238421C1BC45300BD7DFB /* Main.storyboard */; };
+		540238461C1BC45300BD7DFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 540238451C1BC45300BD7DFB /* Assets.xcassets */; };
+		540238491C1BC45300BD7DFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 540238471C1BC45300BD7DFB /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5402383B1C1BC45300BD7DFB /* Shinsi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shinsi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5402383E1C1BC45300BD7DFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		540238401C1BC45300BD7DFB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		540238431C1BC45300BD7DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		540238451C1BC45300BD7DFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		540238481C1BC45300BD7DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5402384A1C1BC45300BD7DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		540238381C1BC45300BD7DFB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		540238321C1BC45300BD7DFB = {
+			isa = PBXGroup;
+			children = (
+				5402383D1C1BC45300BD7DFB /* Shinsi */,
+				5402383C1C1BC45300BD7DFB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5402383C1C1BC45300BD7DFB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5402383B1C1BC45300BD7DFB /* Shinsi.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5402383D1C1BC45300BD7DFB /* Shinsi */ = {
+			isa = PBXGroup;
+			children = (
+				5402383E1C1BC45300BD7DFB /* AppDelegate.swift */,
+				540238401C1BC45300BD7DFB /* ViewController.swift */,
+				540238421C1BC45300BD7DFB /* Main.storyboard */,
+				540238451C1BC45300BD7DFB /* Assets.xcassets */,
+				540238471C1BC45300BD7DFB /* LaunchScreen.storyboard */,
+				5402384A1C1BC45300BD7DFB /* Info.plist */,
+			);
+			path = Shinsi;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5402383A1C1BC45300BD7DFB /* Shinsi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5402384D1C1BC45300BD7DFB /* Build configuration list for PBXNativeTarget "Shinsi" */;
+			buildPhases = (
+				540238371C1BC45300BD7DFB /* Sources */,
+				540238381C1BC45300BD7DFB /* Frameworks */,
+				540238391C1BC45300BD7DFB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Shinsi;
+			productName = Shinsi;
+			productReference = 5402383B1C1BC45300BD7DFB /* Shinsi.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		540238331C1BC45300BD7DFB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = PowHu;
+				TargetAttributes = {
+					5402383A1C1BC45300BD7DFB = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 540238361C1BC45300BD7DFB /* Build configuration list for PBXProject "Shinsi" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 540238321C1BC45300BD7DFB;
+			productRefGroup = 5402383C1C1BC45300BD7DFB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5402383A1C1BC45300BD7DFB /* Shinsi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		540238391C1BC45300BD7DFB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				540238491C1BC45300BD7DFB /* LaunchScreen.storyboard in Resources */,
+				540238461C1BC45300BD7DFB /* Assets.xcassets in Resources */,
+				540238441C1BC45300BD7DFB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		540238371C1BC45300BD7DFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				540238411C1BC45300BD7DFB /* ViewController.swift in Sources */,
+				5402383F1C1BC45300BD7DFB /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		540238421C1BC45300BD7DFB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				540238431C1BC45300BD7DFB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		540238471C1BC45300BD7DFB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				540238481C1BC45300BD7DFB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5402384B1C1BC45300BD7DFB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5402384C1C1BC45300BD7DFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5402384E1C1BC45300BD7DFB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Shinsi/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shinsi.Shinsi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5402384F1C1BC45300BD7DFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Shinsi/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shinsi.Shinsi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		540238361C1BC45300BD7DFB /* Build configuration list for PBXProject "Shinsi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5402384B1C1BC45300BD7DFB /* Debug */,
+				5402384C1C1BC45300BD7DFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5402384D1C1BC45300BD7DFB /* Build configuration list for PBXNativeTarget "Shinsi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5402384E1C1BC45300BD7DFB /* Debug */,
+				5402384F1C1BC45300BD7DFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 540238331C1BC45300BD7DFB /* Project object */;
+}
