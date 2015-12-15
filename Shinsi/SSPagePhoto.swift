@@ -32,28 +32,43 @@ class SSPagePhoto : NSObject, MWPhotoProtocol {
 
     @objc func performLoadUnderlyingImageAndNotify() {
 
-        RequestManager.getImageURLInPageWithURL(self.urlString) { url in
+        let imageCache = SDWebImageManager.sharedManager().imageCache
 
-            guard let url = url else {
+        if let memoryCache = imageCache.imageFromMemoryCacheForKey(self.urlString) {
+            self.underlyingImage = memoryCache
+            self.imageLoadComplete()
+            return
+        }
+
+        imageCache.queryDiskCacheForKey(self.urlString) { image, cacheType in
+            if let diskCache = image {
+                self.underlyingImage = diskCache
                 self.imageLoadComplete()
-                return
-            }
-
-            let manager = SDWebImageManager.sharedManager()
-            self.imageOperation = manager.downloadImageWithURL( NSURL(string: url)! , options: .HighPriority, progress: { receivedSize, expectedSize in
-                if expectedSize > 0 {
-                    let progress = Float(receivedSize) / Float(expectedSize)
-                    let dict : NSDictionary = ["progress" : progress , "photo" : self]
-                    NSNotificationCenter.defaultCenter().postNotificationName(MWPHOTO_PROGRESS_NOTIFICATION, object: dict)
-                }
-                }, completed: { image, error, imageCacheType, bool, url in
-                    self.underlyingImage = image
-                    Async.main {
+            } else {
+                RequestManager.getImageURLInPageWithURL(self.urlString) { url in
+                    guard let url = url else {
                         self.imageLoadComplete()
+                        return
                     }
-            })
 
+                    let manager = SDWebImageManager.sharedManager()
+                    self.imageOperation = manager.downloadImageWithURL( NSURL(string: url)! , options: [.HighPriority , .CacheMemoryOnly], progress: { receivedSize, expectedSize in
+                        if expectedSize > 0 {
+                            let progress = Float(receivedSize) / Float(expectedSize)
+                            let dict : NSDictionary = ["progress" : progress , "photo" : self]
+                            NSNotificationCenter.defaultCenter().postNotificationName(MWPHOTO_PROGRESS_NOTIFICATION, object: dict)
+                        }
+                        }, completed: { image, error, imageCacheType, bool, url in
 
+                            imageCache.storeImage(image, forKey: self.urlString)
+
+                            self.underlyingImage = image
+                            Async.main {
+                                self.imageLoadComplete()
+                            }
+                    })
+                }
+            }
         }
     }
 
