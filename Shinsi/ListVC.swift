@@ -67,6 +67,18 @@ class ListVC: UIViewController {
         })
     }
 
+    @IBAction func favoriteButtonDidClick(sender: UIBarButtonItem) {
+        guard self.searchTextField.text != "favorites" else { return }
+
+        self.searchTextField.text = "favorites"
+        self.searchTextField.resignFirstResponder()
+        items = []
+        collectionView.reloadData()
+        currentPage = 0
+        loadPage(currentPage)
+        NSUserDefaults.standardUserDefaults().setObject(self.searchTextField.text, forKey: "savedKeyword")
+    }
+
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
@@ -121,7 +133,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let rows = floor(collectionView.w / 160)
+        let rows = floor(collectionView.w / 120)
         let width = (collectionView.w - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (rows - 1)) / rows
         return CGSize(width: width, height: width / 210 * 297)
     }

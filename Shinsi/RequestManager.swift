@@ -30,7 +30,6 @@ struct GData {
 
 class RequestManager {
     
-
     //Create a config cookie.
     //Set display mode to thumbnail. (Easily get cover)
     //Set page thumbnail size to large. (Easily get page thumbnail)
@@ -69,6 +68,8 @@ class RequestManager {
             if keyword.contains("tag:") {
                 keyword = keyword.stringByReplacingOccurrencesOfString("tag:", withString: "")
                 urlWithFilter =  kHost + "/tag/\(keyword.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!)/\(page)"
+            } else if keyword == "favorites" {
+                urlWithFilter = kHost + "/favorites.php?page\(page)"
             }
             else {
                 urlWithFilter += "&f_search=\(keyword.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!)"
