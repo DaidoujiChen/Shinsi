@@ -12,20 +12,22 @@ import Kanna
 import Async
 
 struct Doujinshi {
-    var imgUrl : String?
+    var coverUrl : String!
     var title : String = ""
-    var url :String?
+    var url :String!
 }
 
 struct Page {
-    var thumbUrl : String?
-    var url : String?
+    var thumbUrl : String!
+    var url : String!
 }
 
 struct GData {
     var filecount : Int
     var rating : Float
     var tags : [String]
+    var title : String
+    var title_jpn : String
 }
 
 class RequestManager {
@@ -55,7 +57,6 @@ class RequestManager {
             ]
             NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: properties)!)
         }
-
     }
 
     class func getDoujinshiAtPage(page : Int , searchWithKeyword keyword : String? = nil , finishBlock block : ((items : [Doujinshi]) -> ())?) {
@@ -69,12 +70,13 @@ class RequestManager {
                 keyword = keyword.stringByReplacingOccurrencesOfString("tag:", withString: "")
                 urlWithFilter =  kHost + "/tag/\(keyword.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!)/\(page)"
             } else if keyword == "favorites" {
-                urlWithFilter = kHost + "/favorites.php?page\(page)"
+                urlWithFilter = kHost + "/favorites.php?page=\(page)"
             }
             else {
                 urlWithFilter += "&f_search=\(keyword.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!)"
             }
         }
+
         print(urlWithFilter)
         Alamofire.request(.GET, urlWithFilter).responseString { response in
             
@@ -89,7 +91,7 @@ class RequestManager {
                     if let url = link["href"] {
                         if let imgNode = link.at_css("img") {
                             if let imgUrl = imgNode["src"] , let title = imgNode["title"] {
-                                items.append(Doujinshi(imgUrl: imgUrl, title: title ,url: url))
+                                items.append(Doujinshi(coverUrl: imgUrl, title: title ,url: url))
                             }
                         }
                     }
@@ -101,9 +103,9 @@ class RequestManager {
         }
     }
 
-    class func getPages(url : String! , finishBlock block : ((pages : [Page]) -> ())?) {
+    class func getDoujinshiPages(doujinshi : Doujinshi!, atPage page : Int! , finishBlock block : ((pages : [Page]) -> ())?) {
         //print(__FUNCTION__)
-
+        let url = doujinshi.url + "?p=\(page)"
         Alamofire.request(.GET, url).responseString { response in
 
             guard let html = response.result.value else {
@@ -150,11 +152,11 @@ class RequestManager {
         }
     }
 
-    class func getGData( url : String! , finishBlock block : ( (gdata : GData?) -> () )? ) {
+    class func getGData( doujinshi : Doujinshi! , finishBlock block : ( (gdata : GData?) -> () )? ) {
         //print(__FUNCTION__)
         //Api http://ehwiki.org/wiki/API
 
-        let r = url.stringByReplacingOccurrencesOfString(kHost + "/g/", withString: "")
+        let r = doujinshi.url.stringByReplacingOccurrencesOfString(kHost + "/g/", withString: "")
         var gidlist = r.componentsSeparatedByString("/")
         guard gidlist.count == 3 else {
             block?(gdata: nil)
@@ -170,9 +172,11 @@ class RequestManager {
                 //print(dic["gmetadata"]![0])
                 if let metadata = dic["gmetadata"]?[0] {
                     if let count = metadata["filecount"]  as? String ,
-                       let rating = metadata["rating"]    as? String,
-                       let tags = metadata["tags"]        as? [String] {
-                            let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags)
+                       let rating = metadata["rating"] as? String,
+                       let title = metadata["title"] as? String,
+                       let title_jpn = metadata["title_jpn"] as? String,
+                       let tags = metadata["tags"] as? [String] {
+                            let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn)
                             block?(gdata: gdata)
                             return
                     }
@@ -200,4 +204,29 @@ class RequestManager {
             block?()
         }
     }
+
+    class func addDoujinshiToFavorite( doujinshi : Doujinshi!) {
+        //http://exhentai.org/gallerypopups.php?gid=883375&t=08ca140888&act=addfav
+        //favcat=0&favnote=&submit=Add+to+Favorites
+
+        let r = doujinshi.url.stringByReplacingOccurrencesOfString(kHost + "/g/", withString: "")
+        var gidlist = r.componentsSeparatedByString("/")
+        guard gidlist.count == 3 else { return }
+
+        let url = kHost + "/gallerypopups.php?gid=\(gidlist[0])&t=\(gidlist[1])&act=addfav"
+        let parameters = ["favcat" : 0 , "favnote" : "" , "submit" : "Add+to+Favorites"]
+
+        Alamofire.request(.POST, url, parameters: parameters, encoding: .URL, headers: nil).responseString { response in
+            print(response)
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
