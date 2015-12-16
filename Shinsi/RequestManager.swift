@@ -31,7 +31,7 @@ struct GData {
 }
 
 class RequestManager {
-    
+
     //Create a config cookie.
     //Set display mode to thumbnail. (Easily get cover)
     //Set page thumbnail size to large. (Easily get page thumbnail)
@@ -79,7 +79,7 @@ class RequestManager {
 
         print(urlWithFilter)
         Alamofire.request(.GET, urlWithFilter).responseString { response in
-            
+
             guard let html = response.result.value else {
                 block?(items: [])
                 return
@@ -172,13 +172,19 @@ class RequestManager {
                 //print(dic["gmetadata"]![0])
                 if let metadata = dic["gmetadata"]?[0] {
                     if let count = metadata["filecount"]  as? String ,
-                       let rating = metadata["rating"] as? String,
-                       let title = metadata["title"] as? String,
-                       let title_jpn = metadata["title_jpn"] as? String,
-                       let tags = metadata["tags"] as? [String] {
-                            let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn)
-                            block?(gdata: gdata)
-                            return
+                        let rating = metadata["rating"] as? String,
+                        let title = metadata["title"] as? String,
+                        let title_jpn = metadata["title_jpn"] as? String,
+                        let tags = metadata["tags"] as? [String]
+                    {
+                        let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn)
+                        block?(gdata: gdata)
+
+                        //Cache 
+                        let cachedURLResponse = NSCachedURLResponse(response: response.response!, data: response.data!, userInfo: nil, storagePolicy: .Allowed)
+                        NSURLCache.sharedURLCache().storeCachedResponse(cachedURLResponse, forRequest: response.request!)
+
+                        return
                     }
                 }
                 block?(gdata: nil)
@@ -190,7 +196,7 @@ class RequestManager {
 
     class func login(username name : String! , password pw : String! , finishBlock block : (() -> ())? ) {
         //print(__FUNCTION__)
-        
+
         let url = "https://forums.e-hentai.org/index.php?act=Login&CODE=01"
         let parameter = [
             "CookieDate" : "1" ,
@@ -199,7 +205,7 @@ class RequestManager {
             "UserName" : name,
             "PassWord" : pw,
             "ipb_login_submit" : "Login!"]
-        
+
         Alamofire.request(.POST, url, parameters: parameter, encoding: .URL, headers: nil).responseString { response in
             block?()
         }
@@ -215,7 +221,7 @@ class RequestManager {
 
         let url = kHost + "/gallerypopups.php?gid=\(gidlist[0])&t=\(gidlist[1])&act=addfav"
         let parameters = ["favcat" : 0 , "favnote" : "" , "submit" : "Add+to+Favorites"]
-
+        
         Alamofire.request(.POST, url, parameters: parameters, encoding: .URL, headers: nil).responseString { response in
             print(response)
         }
