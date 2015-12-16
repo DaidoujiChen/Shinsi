@@ -28,6 +28,7 @@ struct GData {
     var tags : [String]
     var title : String
     var title_jpn : String
+    var coverUrl : String
 }
 
 class RequestManager {
@@ -175,9 +176,10 @@ class RequestManager {
                         let rating = metadata["rating"] as? String,
                         let title = metadata["title"] as? String,
                         let title_jpn = metadata["title_jpn"] as? String,
-                        let tags = metadata["tags"] as? [String]
+                        let tags = metadata["tags"] as? [String],
+                        let thumb = metadata["thumb"] as? String
                     {
-                        let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn)
+                        let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn , coverUrl: thumb)
                         block?(gdata: gdata)
 
                         //Cache 

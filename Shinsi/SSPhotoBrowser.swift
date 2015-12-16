@@ -13,11 +13,28 @@ import XLActionController
 
 class SSPhotoBrowser: MWPhotoBrowser {
 
+    lazy var gridButton : UIBarButtonItem = { [unowned self] in
+        return UIBarButtonItem(image: UIImage(named: "UIBarButtonItemGrid"), style: .Plain, target: self, action: "showGridAnimated")
+    }()
+    lazy var flexPlace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+    lazy var actionButton : UIBarButtonItem = { [unowned self] in
+        return UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "actionButtonPressed:")
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func performLayout() {
+        super.performLayout()
+        //Not good but....
+        self.toolBar.items = [gridButton,flexPlace,actionButton]
+    }
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         SVProgressHUD.dismiss()
     }
-
 }
 
 class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
@@ -37,7 +54,7 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
     }
 
     func getGData() {
-        SVProgressHUD.showWithStatus("Fetching gdata")
+        SVProgressHUD.show()
         RequestManager.getGData(self.doujinshi) { gdata in
             guard let gdata = gdata else { return }
             self.gdata = gdata
@@ -90,16 +107,11 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
 
         guard let gdata = gdata else { return }
 
-        let actionController = SpotifyActionController()
-        actionController.headerData = SpotifyHeaderData(title: gdata.title_jpn, subtitle: "Various Artists", image: UIImage(named: "UIBarButtonItemGrid")!)
-
-        actionController.addAction(Action(ActionData(title: "Add to favorite", image: UIImage(named: "UIBarButtonItemGrid")!), style: .Destructive, handler: { action in
-            RequestManager.addDoujinshiToFavorite(self.doujinshi)
-            SVProgressHUD.showSuccessWithStatus("Add to favorite")
-        }))
+        let actionController = SSActionControler()
+        actionController.headerData = HeaderData(title: gdata.title_jpn, coverUrl: gdata.coverUrl)
 
         for tag in gdata.tags {
-            actionController.addAction(Action(ActionData(title: tag, image: UIImage(named: "UIBarButtonItemGrid")!), style: .Default, handler: { action in
+            actionController.addAction(Action(tag, style: .Default, handler: { action in
                 if let listVC = photoBrowser.navigationController?.viewControllers.first as? ListVC {
                     listVC.searchTag(tag)
                     photoBrowser.navigationController?.popViewControllerAnimated(true)

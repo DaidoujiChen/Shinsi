@@ -14,6 +14,7 @@ import MWPhotoBrowser
 class SSPagePhoto : NSObject, MWPhotoProtocol {
 
     var urlString : String
+    var loadingInProgress = false
     private var imageOperation : SDWebImageOperation?
 
     init(URL url : String!) {
@@ -27,13 +28,13 @@ class SSPagePhoto : NSObject, MWPhotoProtocol {
     }
 
     @objc func loadUnderlyingImageAndNotify() {
+        guard loadingInProgress == false else { return }
+        loadingInProgress = true
         self.performLoadUnderlyingImageAndNotify()
     }
 
     @objc func performLoadUnderlyingImageAndNotify() {
-
         let imageCache = SDWebImageManager.sharedManager().imageCache
-
         if let memoryCache = imageCache.imageFromMemoryCacheForKey(self.urlString) {
             self.underlyingImage = memoryCache
             self.imageLoadComplete()
@@ -73,14 +74,17 @@ class SSPagePhoto : NSObject, MWPhotoProtocol {
     }
 
     @objc func unloadUnderlyingImage() {
+        loadingInProgress = false
         self.underlyingImage = nil
     }
 
     func imageLoadComplete() {
+        loadingInProgress = false
         NSNotificationCenter.defaultCenter().postNotificationName(MWPHOTO_LOADING_DID_END_NOTIFICATION, object: self)
     }
     
     @objc func cancelAnyLoading() {
-        imageOperation?.cancel()
+        //imageOperation?.cancel()
+        //loadingInProgress = false
     }
 }

@@ -72,6 +72,15 @@ class ListVC: UIViewController {
 
         self.searchTextField.text = "favorites"
         self.searchTextField.resignFirstResponder()
+        reloadeData()
+    }
+
+    func searchTag(tag : String!) {
+        self.searchTextField.text = "tag:\(tag)"
+        reloadeData()
+    }
+
+    func reloadeData() {
         items = []
         collectionView.reloadData()
         currentPage = 0
@@ -110,7 +119,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
 
         let doujinshi = items[indexPath.row]
         let imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.sd_setImageWithURL(NSURL(string: doujinshi.imgUrl!), placeholderImage: nil, options: [.HandleCookies])
+        imageView.sd_setImageWithURL(NSURL(string: doujinshi.coverUrl!), placeholderImage: nil, options: [.HandleCookies])
         let label = cell.viewWithTag(2) as! UILabel
         label.text = doujinshi.title
         
@@ -122,10 +131,11 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
         let doujinshi = items[indexPath.row]
 
         let browser = SSPhotoBrowser()
-        dataSource = SSPhotoDataSource(URL: doujinshi.url! , withBrowser: browser)
+        dataSource = SSPhotoDataSource(doujinshi: doujinshi , withBrowser: browser)
         browser.delegate = dataSource
         browser.zoomPhotosToFill = false
-        browser.enableGrid = false
+        browser.enableGrid = true
+        browser.displayActionButton = false
         //browser.startOnGrid = true
         self.navigationController?.pushViewController(browser, animated: true)
 
