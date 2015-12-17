@@ -108,7 +108,10 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
         guard let gdata = gdata else { return }
 
         let actionController = SSActionControler()
-        actionController.headerData = HeaderData(title: gdata.title_jpn, coverUrl: gdata.coverUrl)
+        actionController.headerData = HeaderData(gdata: gdata, favoriteHandler: { gdata in
+            RequestManager.addDoujinshiToFavorite(self.doujinshi)
+            SVProgressHUD.showSuccessWithStatus("Add to favorites")
+        })
 
         for tag in gdata.tags {
             actionController.addAction(Action(tag, style: .Default, handler: { action in

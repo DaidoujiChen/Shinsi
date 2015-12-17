@@ -10,12 +10,12 @@ import UIKit
 import XLActionController
 
 struct HeaderData {
-    var title : String!
-    var coverUrl : String!
+    var gdata : GData!
+    var favoriteHandler : (GData -> ())!
 
-    init( title :String! , coverUrl : String! ) {
-        self.title = title
-        self.coverUrl = coverUrl
+    init( gdata : GData!, favoriteHandler : (GData -> ())!) {
+        self.gdata = gdata
+        self.favoriteHandler = favoriteHandler
     }
 }
 
@@ -42,6 +42,11 @@ class TagCell: ActionCell {
         selectedBackgroundView = backgroundView
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setNeedsDisplay()
+    }
+
     override func drawRect(rect: CGRect) {
         let path = UIBezierPath(roundedRect: CGRectInset(rect, 2, 2), cornerRadius: 2)
         UIColor.whiteColor().set()
@@ -50,6 +55,10 @@ class TagCell: ActionCell {
 }
 
 class HeaderView: UICollectionReusableView {
+
+    @IBOutlet var coverImageView: UIImageView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var favoriteButton: UIButton!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,7 +75,7 @@ class HeaderView: UICollectionReusableView {
     }
 
     func initialize() {
-
+        self.backgroundColor = UIColor.clearColor()
     }
 }
 
@@ -103,16 +112,21 @@ class SSActionControler : ActionController< TagCell, String, HeaderView, HeaderD
         settings.animation.present.springVelocity = 0.0
 
         cellSpec = .NibFile(nibName: "TagCell", bundle: nil, height: { _ in 30 })
-        headerSpec = .CellClass( height: { _ in 84 })
+        headerSpec = .NibFile(nibName: "HeaderView", bundle: nil, height:{ _ in 160 })
 
         onConfigureCellForAction = { cell, action, indexPath in
             cell.setup(action.data, detail: nil, image: nil)
         }
         onConfigureHeader = { (header: HeaderView, data: HeaderData)  in
-//            header.title.text = data.title
-//            header.artist.text = data.subtitle
-//            header.imageView.image = data.image
+            header.titleLabel.text = data.gdata.title
+            header.coverImageView.sd_setImageWithURL(NSURL(string: data.gdata.coverUrl)!)
+            header.favoriteButton.addTarget(self, action: "favoriteButtonDidClick", forControlEvents: .TouchUpInside)
         }
+    }
+
+    func favoriteButtonDidClick() {
+        headerData?.favoriteHandler(headerData!.gdata)
+        self.dismiss()
     }
 
     override func performCustomDismissingAnimation(presentedView: UIView, presentingView: UIView) {
@@ -126,9 +140,9 @@ class SSActionControler : ActionController< TagCell, String, HeaderView, HeaderD
 
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         guard let action = self.actionForIndexPath(actionIndexPathFor(indexPath)),
-              let actionData = action.data ,
-              let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-        else { return CGSizeZero }
+            let actionData = action.data ,
+            let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
+            else { return CGSizeZero }
 
         let rows = floor(collectionView.w / 150)
         let width = (collectionView.w - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (rows - 1)) / rows

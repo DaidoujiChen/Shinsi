@@ -170,7 +170,7 @@ class RequestManager {
             ]]
         Alamofire.request(.POST, kHost + "/api.php", parameters: p, encoding: .JSON, headers: nil).responseJSON { response in
             if let dic = response.result.value as? NSDictionary {
-                //print(dic["gmetadata"]![0])
+                print(dic["gmetadata"]![0])
                 if let metadata = dic["gmetadata"]?[0] {
                     if let count = metadata["filecount"]  as? String ,
                         let rating = metadata["rating"] as? String,
