@@ -26,6 +26,10 @@ class ListVC: UIViewController {
     var pages : [Page] = []
     var currentPage = 0
     var dataSource : SSPhotoDataSource?
+
+    var isFavoritMode : Bool {
+        return self.restorationIdentifier! == "FavoriteVC"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +40,13 @@ class ListVC: UIViewController {
         })
         footer.setTitle("Pull to load next page", forState: .Idle)
         footer.setTitle("Loading more ...", forState: .Refreshing)
+        footer.setTitle("No more data", forState: .NoMoreData)
         self.collectionView.mj_footer = footer
 
-        if let keyword = NSUserDefaults.standardUserDefaults().stringForKey("savedKeyword") {
-            self.searchTextField.text = keyword
+        if !isFavoritMode {
+            if let keyword = NSUserDefaults.standardUserDefaults().stringForKey("savedKeyword") {
+                self.searchTextField.text = keyword
+            }
         }
 
         RequestManager.thumbnailMode()
@@ -61,18 +68,14 @@ class ListVC: UIViewController {
 
         RequestManager.getDoujinshiAtPage( page, searchWithKeyword:searchTextField.text, finishBlock: { items in
             SVProgressHUD.dismiss()
-            self.items += items
-            self.collectionView.reloadData()
             self.collectionView.mj_footer.endRefreshing()
+            if items.count > 0 {
+                self.items += items
+                self.collectionView.reloadData()
+            } else {
+                self.collectionView.mj_footer.state = .NoMoreData
+            }
         })
-    }
-
-    @IBAction func favoriteButtonDidClick(sender: UIBarButtonItem) {
-        guard self.searchTextField.text != "favorites" else { return }
-
-        self.searchTextField.text = "favorites"
-        self.searchTextField.resignFirstResponder()
-        reloadeData()
     }
 
     func searchTag(tag : String!) {
@@ -85,7 +88,9 @@ class ListVC: UIViewController {
         collectionView.reloadData()
         currentPage = 0
         loadPage(currentPage)
-        NSUserDefaults.standardUserDefaults().setObject(self.searchTextField.text, forKey: "savedKeyword")
+        if !isFavoritMode {
+            NSUserDefaults.standardUserDefaults().setObject(self.searchTextField.text, forKey: "savedKeyword")
+        }
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -96,12 +101,8 @@ class ListVC: UIViewController {
 extension ListVC : UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        items = []
-        collectionView.reloadData()
-        currentPage = 0
-        loadPage(currentPage)
+        reloadeData()
         textField.resignFirstResponder()
-        NSUserDefaults.standardUserDefaults().setObject(textField.text, forKey: "savedKeyword")
         return false
     }
 }
@@ -145,7 +146,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
         let rows = floor(collectionView.w / 120)
         let width = (collectionView.w - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (rows - 1)) / rows
-        return CGSize(width: width, height: width / 210 * 297)
+        return CGSize(width: width, height: width / 250 * 353)
     }
 }
 

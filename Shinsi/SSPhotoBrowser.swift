@@ -20,6 +20,11 @@ class SSPhotoBrowser: MWPhotoBrowser {
     lazy var actionButton : UIBarButtonItem = { [unowned self] in
         return UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "actionButtonPressed:")
     }()
+    lazy var progressBar : UIProgressView = {
+        let p = UIProgressView(frame: CGRectMake(0, 0, 200, 2))
+        p.trackTintColor = UIColor(white: 1, alpha: 0.3)
+        return p
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +33,7 @@ class SSPhotoBrowser: MWPhotoBrowser {
     override func performLayout() {
         super.performLayout()
         //Not good but....
-        self.toolBar.items = [gridButton,flexPlace,actionButton]
+        self.toolBar.items = [gridButton,flexPlace,UIBarButtonItem(customView: progressBar),flexPlace,actionButton]
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -60,6 +65,8 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
             self.gdata = gdata
             self.totalPage = Int(ceilf(Float(gdata.filecount) / Float(20.0)))
             print("File count \(gdata.filecount).   Total page \(self.totalPage).")
+            let progress = Float(self.currentPage) / Float(self.totalPage)
+            self.browser.progressBar.setProgress(progress, animated: true)
             self.loadPages()
         }
     }
@@ -70,11 +77,10 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
             SVProgressHUD.dismiss()
             return
         }
-
-        //SVProgressHUD.showProgress( Float(currentPage) / Float(totalPage), status: "Parsing page \(currentPage) of \(totalPage)")
         RequestManager.getDoujinshiPages(doujinshi, atPage: currentPage) {pages in
             SVProgressHUD.dismiss()
             guard let browser = self.browser else { return }
+
             self.pages += pages
             if self.currentPage + 1 < self.totalPage {
                 if self.currentPage == 0 {
@@ -82,9 +88,12 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
                 }
                 self.currentPage += 1
                 self.loadPages()
+                let progress = Float(self.currentPage) / Float(self.totalPage)
+                self.browser.progressBar.setProgress(progress, animated: true)
             } else {
                 browser.enableGrid = true
                 browser.reloadData()
+                self.browser.progressBar.hidden = true
             }
         }
     }
@@ -115,10 +124,14 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
 
         for tag in gdata.tags {
             actionController.addAction(Action(tag, style: .Default, handler: { action in
-                if let listVC = photoBrowser.navigationController?.viewControllers.first as? ListVC {
-                    listVC.searchTag(tag)
-                    photoBrowser.navigationController?.popViewControllerAnimated(true)
-                }
+
+                guard let tabBarController = photoBrowser.navigationController?.tabBarController else { return }
+                guard let nv = tabBarController.viewControllers?.first as? UINavigationController else { return }
+                guard let searchVC = nv.viewControllers.first as? ListVC else { return }
+
+                tabBarController.selectedIndex = 0
+                searchVC.searchTag(tag)
+                photoBrowser.navigationController?.popViewControllerAnimated(true)
             }))
         }
         photoBrowser.presentViewController(actionController, animated: true, completion: nil)

@@ -38,7 +38,7 @@ class LoginVC: UIViewController {
         super.viewDidAppear(animated)
 
         if checkCookie() {
-            pustToListVC()
+            pustToList()
         } else {
             userNameField.hidden = false
             passwordField.hidden = false
@@ -46,8 +46,8 @@ class LoginVC: UIViewController {
         }
     }
 
-    func pustToListVC() {
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("ListVC") as! ListVC
+    func pustToList() {
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("SSTabBarController") as! SSTabBarController
         self.navigationController?.setViewControllers([vc], animated: false)
     }
 
@@ -86,7 +86,7 @@ class LoginVC: UIViewController {
 
             if self.checkCookie() {
                 self.copyCookiesForEx()
-                self.pustToListVC()
+                self.pustToList()
             } else {
                 print("Login failed")
                 SVProgressHUD.showErrorWithStatus("Login failed")
