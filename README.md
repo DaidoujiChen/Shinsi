@@ -9,4 +9,4 @@ Build to your device.
 
 ### JB device. 
 You need install AppSync.
-Then sync [ipa](https://github.com/powhu/Shinsi/releases/download/0.5.0/Shinsi.ipa) to your device using iTunes.
+Then sync [ipa](https://github.com/powhu/Shinsi/releases/download/0.6.0/Shinsi.ipa) to your device using iTunes.
