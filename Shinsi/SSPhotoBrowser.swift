@@ -41,6 +41,10 @@ class SSPhotoBrowser: MWPhotoBrowser {
         super.viewDidDisappear(animated)
         SVProgressHUD.dismiss()
     }
+
+    func actionButtonPressed(sender : UIBarButtonItem) {
+        self.delegate?.photoBrowser?(self, actionButtonPressedForPhotoAtIndex: self.currentIndex)
+    }
 }
 
 class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
