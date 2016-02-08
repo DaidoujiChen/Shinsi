@@ -19,7 +19,7 @@ import SVProgressHUD
 
 class ListVC: UIViewController {
 
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var collectionView: UICollectionView?
     @IBOutlet var searchTextField: UITextField!
 
     var items : [Doujinshi] = []
@@ -27,10 +27,8 @@ class ListVC: UIViewController {
     var currentPage = 0
     var dataSource : SSPhotoDataSource?
 
-    var isFavoritMode : Bool {
-        return self.restorationIdentifier! == "FavoriteVC"
-    }
-    
+    var searchString : String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,12 +39,13 @@ class ListVC: UIViewController {
         footer.setTitle("Pull to load next page", forState: .Idle)
         footer.setTitle("Loading more ...", forState: .Refreshing)
         footer.setTitle("No more data", forState: .NoMoreData)
-        self.collectionView.mj_footer = footer
+        collectionView?.mj_footer = footer
 
-        if !isFavoritMode {
-            if let keyword = NSUserDefaults.standardUserDefaults().stringForKey("savedKeyword") {
-                self.searchTextField.text = keyword
-            }
+        if let searchString = searchString {
+            self.searchTextField.text = searchString
+        }
+        else if let keyword = NSUserDefaults.standardUserDefaults().stringForKey("savedKeyword") {
+            self.searchTextField.text = keyword
         }
 
         RequestManager.thumbnailMode()
@@ -68,12 +67,12 @@ class ListVC: UIViewController {
 
         RequestManager.getDoujinshiAtPage( page, searchWithKeyword:searchTextField.text, finishBlock: { items in
             SVProgressHUD.dismiss()
-            self.collectionView.mj_footer.endRefreshing()
+            self.collectionView?.mj_footer.endRefreshing()
             if items.count > 0 {
                 self.items += items
-                self.collectionView.reloadData()
+                self.collectionView?.reloadData()
             } else {
-                self.collectionView.mj_footer.state = .NoMoreData
+                self.collectionView?.mj_footer.state = .NoMoreData
             }
         })
     }
@@ -85,16 +84,22 @@ class ListVC: UIViewController {
 
     func reloadeData() {
         items = []
-        collectionView.reloadData()
+        collectionView?.reloadData()
         currentPage = 0
         loadPage(currentPage)
-        if !isFavoritMode {
+        if searchString == nil {
             NSUserDefaults.standardUserDefaults().setObject(self.searchTextField.text, forKey: "savedKeyword")
         }
     }
 
+    @IBAction func favoriteButtonDidClick(sender: UIBarButtonItem) {
+        self.searchTextField.text = "favorites"
+        reloadeData()
+    }
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        self.collectionView.collectionViewLayout.invalidateLayout()
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        collectionView?.collectionViewLayout.invalidateLayout()
     }
 }
 
@@ -144,7 +149,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let rows = floor(collectionView.w / 120)
+        let rows = min(5, floor(collectionView.w / 120))
         let width = (collectionView.w - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (rows - 1)) / rows
         return CGSize(width: width, height: width / 250 * 353)
     }

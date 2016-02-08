@@ -209,6 +209,7 @@ class RequestManager {
             "ipb_login_submit" : "Login!"]
 
         Alamofire.request(.POST, url, parameters: parameter, encoding: .URL, headers: nil).responseString { response in
+            //print(response.result.value)
             block?()
         }
     }

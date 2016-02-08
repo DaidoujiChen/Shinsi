@@ -47,12 +47,12 @@ class LoginVC: UIViewController {
     }
 
     func pustToList() {
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("SSTabBarController") as! SSTabBarController
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("ListVC") as! ListVC
         self.navigationController?.setViewControllers([vc], animated: false)
     }
 
     func checkCookie() -> Bool {
-        //print(NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies)
+        print(NSHTTPCookieStorage.sharedHTTPCookieStorage().cookies)
         if let cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage().cookiesForURL(NSURL(string: kEHentaiURL)!) {
             for c in cookies {
                 if c.name == "ipb_pass_hash" {

@@ -10,6 +10,7 @@ import UIKit
 import MWPhotoBrowser
 import SVProgressHUD
 import XLActionController
+import Async
 
 class SSPhotoBrowser: MWPhotoBrowser {
 
@@ -125,15 +126,22 @@ class SSPhotoDataSource : NSObject , MWPhotoBrowserDelegate {
         for tag in gdata.tags {
             actionController.addAction(Action(tag, style: .Default, handler: { action in
 
-                guard let tabBarController = photoBrowser.navigationController?.tabBarController else { return }
-                guard let nv = tabBarController.viewControllers?.first as? UINavigationController else { return }
-                guard let searchVC = nv.viewControllers.first as? ListVC else { return }
-
-                tabBarController.selectedIndex = 0
-                searchVC.searchTag(tag)
-                photoBrowser.navigationController?.popViewControllerAnimated(true)
+                guard let nv = photoBrowser.navigationController else { return }
+                guard let searchVC = nv.storyboard?.instantiateViewControllerWithIdentifier("ListVC") as? ListVC else { return }
+                searchVC.searchString = tag
+                nv.pushViewController(searchVC, animated: true)
             }))
         }
         photoBrowser.presentViewController(actionController, animated: true, completion: nil)
+    }
+}
+
+extension UINavigationController {
+    func pushViewController(viewController: UIViewController,
+        animated: Bool, completion: Void -> Void) {
+            CATransaction.begin()
+            CATransaction.setCompletionBlock(completion)
+            pushViewController(viewController, animated: animated)
+            CATransaction.commit()
     }
 }
