@@ -9,6 +9,13 @@
 import UIKit
 import SVProgressHUD
 
+class SSNavigationController : UINavigationController {
+
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+}
+
 class LoginVC: UIViewController {
 
     @IBOutlet var userNameField: UITextField!
@@ -21,16 +28,6 @@ class LoginVC: UIViewController {
         userNameField.hidden = true
         passwordField.hidden = true
         loginButton.hidden = true
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -47,8 +44,8 @@ class LoginVC: UIViewController {
     }
 
     func pustToList() {
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("ListVC") as! ListVC
-        self.navigationController?.setViewControllers([vc], animated: false)
+        let vc = storyboard?.instantiateViewControllerWithIdentifier("ListVC") as! ListVC
+        navigationController?.setViewControllers([vc], animated: false)
     }
 
     func checkCookie() -> Bool {

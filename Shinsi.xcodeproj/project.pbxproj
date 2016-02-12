@@ -17,10 +17,10 @@
 		540BD93A1C21C3BD003B2E45 /* TagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 540BD9391C21C3BD003B2E45 /* TagCell.xib */; };
 		540BD93C1C21CD2D003B2E45 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 540BD93B1C21CD2D003B2E45 /* HeaderView.xib */; };
 		548805271C1D7E3C00AD37D6 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548805261C1D7E3C00AD37D6 /* LoginVC.swift */; };
-		548805291C1DB2B800AD37D6 /* SSPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548805281C1DB2B800AD37D6 /* SSPhotoBrowser.swift */; };
 		548EB7A01C1C29100075C296 /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548EB79F1C1C29100075C296 /* ListVC.swift */; };
 		548EB7A41C1C2A870075C296 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548EB7A31C1C2A870075C296 /* RequestManager.swift */; };
-		548EB7A81C1D1B2E0075C296 /* SSPagePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548EB7A71C1D1B2E0075C296 /* SSPagePhoto.swift */; };
+		54AC42271C6A27280012DB9C /* PhotoBrowserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AC42261C6A27280012DB9C /* PhotoBrowserVC.swift */; };
+		54AC42291C6A32A50012DB9C /* SSPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AC42281C6A32A50012DB9C /* SSPhoto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,10 +36,10 @@
 		540BD9391C21C3BD003B2E45 /* TagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCell.xib; sourceTree = "<group>"; };
 		540BD93B1C21CD2D003B2E45 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		548805261C1D7E3C00AD37D6 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		548805281C1DB2B800AD37D6 /* SSPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPhotoBrowser.swift; sourceTree = "<group>"; };
 		548EB79F1C1C29100075C296 /* ListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
 		548EB7A31C1C2A870075C296 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
-		548EB7A71C1D1B2E0075C296 /* SSPagePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPagePhoto.swift; sourceTree = "<group>"; };
+		54AC42261C6A27280012DB9C /* PhotoBrowserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoBrowserVC.swift; sourceTree = "<group>"; };
+		54AC42281C6A32A50012DB9C /* SSPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPhoto.swift; sourceTree = "<group>"; };
 		686FBA1672F579EA295E6487 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BD0DBF4B6F43C59664B07578 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -113,8 +113,8 @@
 		540BD9381C2187DD003B2E45 /* PhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				548805281C1DB2B800AD37D6 /* SSPhotoBrowser.swift */,
-				548EB7A71C1D1B2E0075C296 /* SSPagePhoto.swift */,
+				54AC42261C6A27280012DB9C /* PhotoBrowserVC.swift */,
+				54AC42281C6A32A50012DB9C /* SSPhoto.swift */,
 			);
 			name = PhotoBrowser;
 			sourceTree = "<group>";
@@ -255,11 +255,11 @@
 			files = (
 				548EB7A01C1C29100075C296 /* ListVC.swift in Sources */,
 				5402383F1C1BC45300BD7DFB /* AppDelegate.swift in Sources */,
+				54AC42291C6A32A50012DB9C /* SSPhoto.swift in Sources */,
 				548805271C1D7E3C00AD37D6 /* LoginVC.swift in Sources */,
 				540BD9361C218296003B2E45 /* SSActionController.swift in Sources */,
-				548805291C1DB2B800AD37D6 /* SSPhotoBrowser.swift in Sources */,
+				54AC42271C6A27280012DB9C /* PhotoBrowserVC.swift in Sources */,
 				540238511C1BC92300BD7DFB /* Const.swift in Sources */,
-				548EB7A81C1D1B2E0075C296 /* SSPagePhoto.swift in Sources */,
 				548EB7A41C1C2A870075C296 /* RequestManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

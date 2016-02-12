@@ -25,7 +25,6 @@ class ListVC: UIViewController {
     var items : [Doujinshi] = []
     var pages : [Page] = []
     var currentPage = 0
-    var dataSource : SSPhotoDataSource?
 
     var searchString : String?
 
@@ -51,7 +50,7 @@ class ListVC: UIViewController {
         RequestManager.thumbnailMode()
         loadPage(currentPage)
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -59,7 +58,7 @@ class ListVC: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        //self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
 
     func loadPage(page : Int) {
@@ -135,6 +134,11 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
         
         let doujinshi = items[indexPath.row]
 
+        guard let browser = storyboard?.instantiateViewControllerWithIdentifier("PhotoBrowserVC") as? PhotoBrowserVC else { return }
+        browser.doujinshi = doujinshi
+        navigationController?.pushViewController(browser, animated: true)
+
+        /*
         let browser = SSPhotoBrowser()
         dataSource = SSPhotoDataSource(doujinshi: doujinshi , withBrowser: browser)
         browser.delegate = dataSource
@@ -143,7 +147,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
         browser.displayActionButton = false
         //browser.startOnGrid = true
         self.navigationController?.pushViewController(browser, animated: true)
-
+        */
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

@@ -109,13 +109,89 @@
                     <connections>
                         <outlet property="collectionView" destination="UxA-BV-hdj" id="5e5-Ww-BOQ"/>
                         <outlet property="searchTextField" destination="aIF-w1-zm4" id="lNu-gi-evS"/>
+                        <segue destination="dz0-qE-9AK" kind="show" id="vnE-Wo-kUs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="755" y="196"/>
         </scene>
-        <!--Login-->
+        <!--Photo BrowserVC-->
+        <scene sceneID="y6u-XQ-4W1">
+            <objects>
+                <viewController storyboardIdentifier="PhotoBrowserVC" id="dz0-qE-9AK" customClass="PhotoBrowserVC" customModule="Shinsi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LXp-yt-Rff"/>
+                        <viewControllerLayoutGuide type="bottom" id="R5S-vh-y5v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vfZ-B0-RO1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Tel-bz-Hrn">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="XOY-kS-Tmf">
+                                    <size key="itemSize" width="100" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="2" minY="2" maxX="2" maxY="2"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="97t-02-n92">
+                                        <rect key="frame" x="2" y="66" width="100" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TqA-2L-Xae">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="200"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.19940732759999999" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="TqA-2L-Xae" secondAttribute="trailing" id="JmE-Zu-kjh"/>
+                                            <constraint firstItem="TqA-2L-Xae" firstAttribute="leading" secondItem="97t-02-n92" secondAttribute="leading" id="QFa-z5-zc0"/>
+                                            <constraint firstAttribute="bottom" secondItem="TqA-2L-Xae" secondAttribute="bottom" id="dq3-Oh-XQ2"/>
+                                            <constraint firstItem="TqA-2L-Xae" firstAttribute="top" secondItem="97t-02-n92" secondAttribute="top" id="ndn-Tj-tQB"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="dz0-qE-9AK" id="deW-jI-cyO"/>
+                                    <outlet property="delegate" destination="dz0-qE-9AK" id="4yu-h4-RmX"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="R5S-vh-y5v" firstAttribute="top" secondItem="Tel-bz-Hrn" secondAttribute="bottom" id="3uL-d7-sMa"/>
+                            <constraint firstItem="Tel-bz-Hrn" firstAttribute="leading" secondItem="vfZ-B0-RO1" secondAttribute="leading" id="CAa-Do-yqo"/>
+                            <constraint firstAttribute="trailing" secondItem="Tel-bz-Hrn" secondAttribute="trailing" id="J8c-ik-p96"/>
+                            <constraint firstItem="Tel-bz-Hrn" firstAttribute="top" secondItem="vfZ-B0-RO1" secondAttribute="top" id="sTy-5q-h0b"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="tyz-xX-AQI">
+                        <nil key="title"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="GjS-WY-4UU">
+                            <connections>
+                                <action selector="actionButtonDidClick:" destination="dz0-qE-9AK" id="qmJ-30-5v5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="Tel-bz-Hrn" id="Mdh-PB-jZv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lh4-XE-cvz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1170" y="196"/>
+        </scene>
+        <!--Shinsi-->
         <scene sceneID="gnx-MU-szz">
             <objects>
                 <viewController storyboardIdentifier="LoginVC" id="id4-QN-Q3D" customClass="LoginVC" customModule="Shinsi" customModuleProvider="target" sceneMemberID="viewController">
@@ -133,12 +209,14 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="39W-ug-0oR"/>
                                 </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2vX-rv-U2W">
                                 <rect key="frame" x="10" y="127" width="300" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.2073006466" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -173,7 +251,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Login" id="Py1-nB-03v"/>
+                    <navigationItem key="navigationItem" title="Shinsi" id="Py1-nB-03v"/>
                     <connections>
                         <outlet property="loginButton" destination="4yw-XX-xGq" id="lXI-LJ-Xyf"/>
                         <outlet property="passwordField" destination="2vX-rv-U2W" id="dH7-4v-j7L"/>
@@ -188,8 +266,9 @@
         <!--Navigation Controller-->
         <scene sceneID="mJX-PP-uay">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jAf-lG-7XS" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jAf-lG-7XS" customClass="SSNavigationController" customModule="Shinsi" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="p3M-1k-Mz3">
