@@ -137,17 +137,6 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
         guard let browser = storyboard?.instantiateViewControllerWithIdentifier("PhotoBrowserVC") as? PhotoBrowserVC else { return }
         browser.doujinshi = doujinshi
         navigationController?.pushViewController(browser, animated: true)
-
-        /*
-        let browser = SSPhotoBrowser()
-        dataSource = SSPhotoDataSource(doujinshi: doujinshi , withBrowser: browser)
-        browser.delegate = dataSource
-        browser.zoomPhotosToFill = false
-        browser.enableGrid = true
-        browser.displayActionButton = false
-        //browser.startOnGrid = true
-        self.navigationController?.pushViewController(browser, animated: true)
-        */
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

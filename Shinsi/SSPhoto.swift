@@ -24,14 +24,11 @@ class SSPhoto : NSObject, SKPhotoProtocol {
     }
 
     func loadUnderlyingImageAndNotify() {
-
         guard isLoading == false else { return }
-
         //print("Start load \(urlString)")
         isLoading = true
         let imageCache = SDWebImageManager.sharedManager().imageCache
         RequestManager.getImageURLInPageWithURL(self.urlString) { url in
-
             guard let url = url else {
                 self.imageLoadComplete()
                 return

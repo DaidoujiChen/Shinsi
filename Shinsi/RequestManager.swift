@@ -63,7 +63,7 @@ class RequestManager {
     class func getDoujinshiAtPage(page : Int , searchWithKeyword keyword : String? = nil , finishBlock block : ((items : [Doujinshi]) -> ())?) {
         //print(__FUNCTION__)
 
-        var urlWithFilter = kHost + "/?page=\(page)&f_doujinshi=1&f_manga=1&f_artistcg=0&f_gamecg=0&f_western=0&f_non-h=0&f_imageset=0&f_cosplay=0&f_asianporn=0&f_misc=0&f_apply=Apply+Filter"
+        var urlWithFilter = kHost + "/?page=\(page)&f_doujinshi=1&f_manga=1&f_artistcg=0&f_gamecg=0&f_western=0&f_non-h=1&f_imageset=1&f_cosplay=0&f_asianporn=0&f_misc=0&f_apply=Apply+Filter"
 
         if var keyword = keyword {
             print(keyword)
@@ -80,7 +80,6 @@ class RequestManager {
 
         print(urlWithFilter)
         Alamofire.request(.GET, urlWithFilter).responseString { response in
-
             guard let html = response.result.value else {
                 block?(items: [])
                 return

@@ -130,9 +130,8 @@ extension PhotoBrowserVC : UICollectionViewDataSource , UICollectionViewDelegate
         browser = SKPhotoBrowser(originImage: imageView.image ?? UIImage(), photos: images, animatedFromView: cell)
         browser!.initializePageIndex(indexPath.row)
         browser!.delegate = self
-        browser!.displayAction = true
         browser!.displayAction = false
-        browser!.isForceStatusBarHidden = true
+        //browser!.isForceStatusBarHidden = true
         browser!.displayBackAndForwardButton = false
         presentViewController(browser!, animated: true, completion: {})
     }

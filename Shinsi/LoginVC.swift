@@ -10,7 +10,6 @@ import UIKit
 import SVProgressHUD
 
 class SSNavigationController : UINavigationController {
-
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
