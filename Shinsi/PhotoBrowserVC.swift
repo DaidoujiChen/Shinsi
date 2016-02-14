@@ -25,13 +25,14 @@ class PhotoBrowserVC: UIViewController {
     var totalPage = 1
     var browser : SKPhotoBrowser?
     lazy var progressbar : UIProgressView = {
-        let bar = UIProgressView()
-        bar.autoresizingMask = .FlexibleWidth
+        let bar = UIProgressView(progressViewStyle: .Bar)
+        bar.autoresizingMask = [.FlexibleWidth , .FlexibleHeight]
         bar.trackTintColor = .clearColor()
         bar.progressTintColor = .whiteColor()
         if let navBar = self.navBar {
+            bar.frame = navBar.bounds
             navBar.addSubview(bar)
-            bar.frame = CGRect(x: 0, y: navBar.frame.size.height - 4, w: self.view.frame.size.width, h: 6)
+            print(bar.frame)
         }
         return bar
     }()
@@ -107,6 +108,7 @@ class PhotoBrowserVC: UIViewController {
     }
 
     @IBAction func downloadButtonDidClick(sender: UIBarButtonItem) {
+        guard let gdata = gdata else { return }
         downloadButton.enabled = false
         DownloadManager.downloadDoujinshi(doujinshi, gdata: gdata, pages: pages){ progress in
             print(progress)
@@ -114,7 +116,6 @@ class PhotoBrowserVC: UIViewController {
             self.progressbar.hidden = progress >= 1 ? true : false
         }
     }
-    
 
     @IBAction func actionButtonDidClick(sender: UIBarButtonItem) {
         guard let gdata = gdata else { return }

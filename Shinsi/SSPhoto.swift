@@ -16,7 +16,6 @@ class SSPhoto : NSObject, SKPhotoProtocol {
     var underlyingImage :UIImage!
     var urlString :String!
     var caption :String!
-    private var imageOperation :SDWebImageOperation?
     var isLoading = false
 
     init(URL url : String!) {
@@ -25,21 +24,21 @@ class SSPhoto : NSObject, SKPhotoProtocol {
 
     func loadUnderlyingImageAndNotify() {
         guard isLoading == false else { return }
-        //print("Start load \(urlString)")
         isLoading = true
         let imageCache = SDWebImageManager.sharedManager().imageCache
-        RequestManager.getImageURLInPageWithURL(self.urlString) { url in
+        RequestManager.getImageURLInPageWithURL(urlString) { [weak self] url in
+            guard let weakSelf = self else { return }
             guard let url = url else {
-                self.imageLoadComplete()
+                weakSelf.imageLoadComplete()
                 return
             }
 
-            let manager = SDWebImageManager.sharedManager()
-            self.imageOperation = manager.downloadImageWithURL( NSURL(string: url)! , options: [.HighPriority , .CacheMemoryOnly], progress:nil , completed: { image, error, imageCacheType, bool, url in
-                imageCache.storeImage(image, forKey: self.urlString)
-                self.underlyingImage = image
+            SDWebImageDownloader.sharedDownloader().downloadImageWithURL( NSURL(string: url)! , options: [.HighPriority , .HandleCookies , .UseNSURLCache], progress:nil , completed: { [weak self] image, data, error, success in
+                guard let weakSelf = self else { return }
+                imageCache.storeImage(image, forKey: weakSelf.urlString)
+                weakSelf.underlyingImage = image
                 Async.main{
-                    self.imageLoadComplete()
+                    weakSelf.imageLoadComplete()
                 }
             })
         }
@@ -53,10 +52,10 @@ class SSPhoto : NSObject, SKPhotoProtocol {
             return
         }
 
-        imageCache.queryDiskCacheForKey(urlString) { image, cacheType in
-            if let diskCache = image {
-                self.underlyingImage = diskCache
-                self.imageLoadComplete()
+        imageCache.queryDiskCacheForKey(urlString) { [weak self] image, cacheType in
+            if let diskCache = image , weakSelf = self {
+                weakSelf.underlyingImage = diskCache
+                weakSelf.imageLoadComplete()
             }
         }
     }

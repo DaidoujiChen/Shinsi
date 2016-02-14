@@ -24,7 +24,7 @@ class DownloadManager {
             let pageURL = p.url
             let thumbURL = p.thumbUrl
 
-            //Big image
+            //Orign image
             let imageCache = SDWebImageManager.sharedManager().imageCache
             imageCache.queryDiskCacheForKey(pageURL) { image, cacheType in
                 if let _ = image {
@@ -34,7 +34,7 @@ class DownloadManager {
                 } else {
                     RequestManager.getImageURLInPageWithURL(pageURL) { url in
                         guard let url = url else { return }
-                        SDWebImageDownloader.sharedDownloader().downloadImageWithURL(NSURL(string: url)!, options: [.HighPriority , .HandleCookies ], progress: nil, completed: { (image, data, error, success) -> Void in
+                        SDWebImageDownloader.sharedDownloader().downloadImageWithURL(NSURL(string: url)!, options: [.HighPriority , .HandleCookies , .UseNSURLCache], progress: nil, completed: { (image, data, error, success) -> Void in
                             if let image = image {
                                 imageCache.storeImage(image, forKey:pageURL)
                             }
