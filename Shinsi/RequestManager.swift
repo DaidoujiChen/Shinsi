@@ -11,10 +11,13 @@ import Alamofire
 import Kanna
 import Async
 
+/*
 struct Doujinshi {
     var coverUrl : String!
     var title : String = ""
     var url :String!
+    var pages : [Page]?
+    var gdata : GData?
 }
 
 struct Page {
@@ -30,6 +33,7 @@ struct GData {
     var title_jpn : String
     var coverUrl : String
 }
+*/
 
 class RequestManager {
 
@@ -91,7 +95,7 @@ class RequestManager {
                     if let url = link["href"] {
                         if let imgNode = link.at_css("img") {
                             if let imgUrl = imgNode["src"] , let title = imgNode["title"] {
-                                items.append(Doujinshi(coverUrl: imgUrl, title: title ,url: url))
+                                items.append(Doujinshi(value : ["coverUrl": imgUrl, "title": title , "url": url]))
                             }
                         }
                     }
@@ -119,7 +123,7 @@ class RequestManager {
                     if let url = link["href"] {
                         if let imgNode = link.at_css("img") {
                             if let thumbUrl = imgNode["src"] {
-                                pages.append(Page(thumbUrl: thumbUrl, url: url))
+                                pages.append(Page(value:["thumbUrl": thumbUrl, "url": url]))
                             }
                         }
                     }
@@ -170,7 +174,7 @@ class RequestManager {
         Alamofire.request(.POST, kHost + "/api.php", parameters: p, encoding: .JSON, headers: nil).responseJSON { response in
             if let dic = response.result.value as? NSDictionary {
                 //print(dic["gmetadata"]![0])
-                if let metadata = dic["gmetadata"]?[0] {
+                if let metadata = dic["gmetadata"]?[0] as? NSDictionary {
                     if let count = metadata["filecount"]  as? String ,
                         let rating = metadata["rating"] as? String,
                         let title = metadata["title"] as? String,
@@ -178,7 +182,10 @@ class RequestManager {
                         let tags = metadata["tags"] as? [String],
                         let thumb = metadata["thumb"] as? String
                     {
-                        let gdata = GData(filecount: count.toInt()!, rating: rating.toFloat()!, tags: tags ,title: title , title_jpn: title_jpn , coverUrl: thumb)
+                        let gdata = GData(value : ["filecount": count.toInt()!, "rating": rating.toFloat()! ,"title": title , "title_jpn": title_jpn , "coverUrl": thumb])
+                        for t in tags {
+                            gdata.tags.append(Tag(value:["name" : t]))
+                        }
                         block?(gdata: gdata)
 
                         //Cache 

@@ -62,18 +62,26 @@ class ListVC: UIViewController {
     }
 
     func loadPage(page : Int) {
-        SVProgressHUD.show()
 
-        RequestManager.getDoujinshiAtPage( page, searchWithKeyword:searchTextField.text, finishBlock: { items in
-            SVProgressHUD.dismiss()
-            self.collectionView?.mj_footer.endRefreshing()
-            if items.count > 0 {
-                self.items += items
-                self.collectionView?.reloadData()
-            } else {
-                self.collectionView?.mj_footer.state = .NoMoreData
-            }
-        })
+        if searchTextField.text == "downloaded" {
+            items = RealmManager.getDownloadedDoujinshi()
+            collectionView?.reloadData()
+            collectionView?.mj_footer.state = .NoMoreData
+        }
+        else {
+            SVProgressHUD.show()
+
+            RequestManager.getDoujinshiAtPage( page, searchWithKeyword:searchTextField.text, finishBlock: { items in
+                SVProgressHUD.dismiss()
+                self.collectionView?.mj_footer.endRefreshing()
+                if items.count > 0 {
+                    self.items += items
+                    self.collectionView?.reloadData()
+                } else {
+                    self.collectionView?.mj_footer.state = .NoMoreData
+                }
+            })
+        }
     }
 
     func searchTag(tag : String!) {
@@ -95,6 +103,12 @@ class ListVC: UIViewController {
         self.searchTextField.text = "favorites"
         reloadeData()
     }
+
+    @IBAction func downloadedButtonDidClick(sender: UIBarButtonItem) {
+        self.searchTextField.text = "downloaded"
+        reloadeData()
+    }
+
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         collectionView?.collectionViewLayout.invalidateLayout()
@@ -123,7 +137,7 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
 
         let doujinshi = items[indexPath.row]
         let imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.sd_setImageWithURL(NSURL(string: doujinshi.coverUrl!), placeholderImage: nil, options: [.HandleCookies])
+        imageView.sd_setImageWithURL(NSURL(string: doujinshi.coverUrl), placeholderImage: nil, options: [.HandleCookies])
         let label = cell.viewWithTag(2) as! UILabel
         label.text = doujinshi.title
         
@@ -133,7 +147,6 @@ extension ListVC : UICollectionViewDelegate, UICollectionViewDataSource , UIColl
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let doujinshi = items[indexPath.row]
-
         guard let browser = storyboard?.instantiateViewControllerWithIdentifier("PhotoBrowserVC") as? PhotoBrowserVC else { return }
         browser.doujinshi = doujinshi
         navigationController?.pushViewController(browser, animated: true)

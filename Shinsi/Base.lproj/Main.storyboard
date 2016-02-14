@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--ListVC-->
@@ -89,7 +90,7 @@
                     <navigationItem key="navigationItem" id="jdi-bw-bJb">
                         <nil key="title"/>
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="aIF-w1-zm4">
-                            <rect key="frame" x="48" y="7" width="214" height="30"/>
+                            <rect key="frame" x="36" y="7" width="206" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.1986260775862069" colorSpace="calibratedRGB"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -99,13 +100,19 @@
                                 <outlet property="delegate" destination="BYZ-38-t0r" id="zNC-Dc-Hrg"/>
                             </connections>
                         </textField>
-                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="emf-Aw-fhJ">
-                            <connections>
-                                <action selector="favoriteButtonDidClick:" destination="BYZ-38-t0r" id="hed-kE-EaB"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="" id="emf-Aw-fhJ">
+                                <connections>
+                                    <action selector="favoriteButtonDidClick:" destination="BYZ-38-t0r" id="hed-kE-EaB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="" id="ipg-Oc-DQj">
+                                <connections>
+                                    <action selector="downloadedButtonDidClick:" destination="BYZ-38-t0r" id="f89-ua-1gU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="UxA-BV-hdj" id="5e5-Ww-BOQ"/>
                         <outlet property="searchTextField" destination="aIF-w1-zm4" id="lNu-gi-evS"/>
@@ -114,7 +121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="755" y="196"/>
+            <point key="canvasLocation" x="754.5" y="196"/>
         </scene>
         <!--Photo BrowserVC-->
         <scene sceneID="y6u-XQ-4W1">
@@ -177,14 +184,22 @@
                     </view>
                     <navigationItem key="navigationItem" id="tyz-xX-AQI">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="GjS-WY-4UU">
-                            <connections>
-                                <action selector="actionButtonDidClick:" destination="dz0-qE-9AK" id="qmJ-30-5v5"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="" id="GjS-WY-4UU">
+                                <connections>
+                                    <action selector="actionButtonDidClick:" destination="dz0-qE-9AK" id="qmJ-30-5v5"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="" id="SS1-CR-qiO">
+                                <connections>
+                                    <action selector="downloadButtonDidClick:" destination="dz0-qE-9AK" id="5WP-pd-ugv"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Tel-bz-Hrn" id="Mdh-PB-jZv"/>
+                        <outlet property="downloadButton" destination="SS1-CR-qiO" id="dyw-Gl-Yjc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lh4-XE-cvz" userLabel="First Responder" sceneMemberID="firstResponder"/>

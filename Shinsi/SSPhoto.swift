@@ -53,7 +53,7 @@ class SSPhoto : NSObject, SKPhotoProtocol {
             return
         }
 
-        imageCache.queryDiskCacheForKey(self.urlString) { image, cacheType in
+        imageCache.queryDiskCacheForKey(urlString) { image, cacheType in
             if let diskCache = image {
                 self.underlyingImage = diskCache
                 self.imageLoadComplete()

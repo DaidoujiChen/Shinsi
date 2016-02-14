@@ -11,9 +11,12 @@ import SVProgressHUD
 import XLActionController
 import Async
 import SKPhotoBrowser
+import RealmSwift
+import SDWebImage
 
 class PhotoBrowserVC: UIViewController {
 
+    @IBOutlet var downloadButton: UIBarButtonItem!
     @IBOutlet var collectionView: UICollectionView!
     var doujinshi : Doujinshi!
     var gdata : GData?
@@ -21,10 +24,33 @@ class PhotoBrowserVC: UIViewController {
     var currentPage = 0
     var totalPage = 1
     var browser : SKPhotoBrowser?
+    lazy var progressbar : UIProgressView = {
+        let bar = UIProgressView()
+        bar.autoresizingMask = .FlexibleWidth
+        bar.trackTintColor = .clearColor()
+        bar.progressTintColor = .whiteColor()
+        if let navBar = self.navBar {
+            navBar.addSubview(bar)
+            bar.frame = CGRect(x: 0, y: navBar.frame.size.height - 4, w: self.view.frame.size.width, h: 6)
+        }
+        return bar
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getGData()
+        if doujinshi.gdata != nil{
+            print("Load form downloaded")
+            gdata = doujinshi.gdata
+            title = gdata!.title
+            var ps = [Page]()
+            for p in doujinshi.pages {
+                ps.append(p)
+            }
+            self.pages = ps
+            downloadButton.enabled = false
+        } else {
+            getGData()
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -80,6 +106,16 @@ class PhotoBrowserVC: UIViewController {
         }
     }
 
+    @IBAction func downloadButtonDidClick(sender: UIBarButtonItem) {
+        downloadButton.enabled = false
+        DownloadManager.downloadDoujinshi(doujinshi, gdata: gdata, pages: pages){ progress in
+            print(progress)
+            self.progressbar.setProgress(progress, animated: true)
+            self.progressbar.hidden = progress >= 1 ? true : false
+        }
+    }
+    
+
     @IBAction func actionButtonDidClick(sender: UIBarButtonItem) {
         guard let gdata = gdata else { return }
 
@@ -90,11 +126,11 @@ class PhotoBrowserVC: UIViewController {
         })
 
         for tag in gdata.tags {
-            actionController.addAction(Action(tag, style: .Default, handler: { action in
+            actionController.addAction(Action(tag.name, style: .Default, handler: { action in
 
                 guard let nv = self.navigationController else { return }
                 guard let searchVC = nv.storyboard?.instantiateViewControllerWithIdentifier("ListVC") as? ListVC else { return }
-                searchVC.searchString = "tag:\(tag)"
+                searchVC.searchString = "tag:\(tag.name)"
                 nv.pushViewController(searchVC, animated: true)
             }))
         }
@@ -114,8 +150,7 @@ extension PhotoBrowserVC : UICollectionViewDataSource , UICollectionViewDelegate
 
         let page = pages[indexPath.row]
         let imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.sd_setImageWithURL(NSURL(string: page.thumbUrl!), placeholderImage: nil, options: [.HandleCookies])
-        
+        imageView.sd_setImageWithURL(NSURL(string: page.thumbUrl), placeholderImage: nil, options: [.HandleCookies])
         return cell
     }
 
@@ -123,15 +158,14 @@ extension PhotoBrowserVC : UICollectionViewDataSource , UICollectionViewDelegate
         var images = [SSPhoto]()
         let cell = collectionView.cellForItemAtIndexPath(indexPath)!
         let imageView = cell.viewWithTag(1) as! UIImageView
+        guard let fromImage = imageView.image else { return }
         for p in pages {
             images.append(SSPhoto(URL: p.url))
         }
-
-        browser = SKPhotoBrowser(originImage: imageView.image ?? UIImage(), photos: images, animatedFromView: cell)
+        browser = SKPhotoBrowser(originImage: fromImage, photos: images, animatedFromView: cell)
         browser!.initializePageIndex(indexPath.row)
         browser!.delegate = self
         browser!.displayAction = false
-        //browser!.isForceStatusBarHidden = true
         browser!.displayBackAndForwardButton = false
         presentViewController(browser!, animated: true, completion: {})
     }
