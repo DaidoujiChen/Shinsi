@@ -11,30 +11,6 @@ import Alamofire
 import Kanna
 import Async
 
-/*
-struct Doujinshi {
-    var coverUrl : String!
-    var title : String = ""
-    var url :String!
-    var pages : [Page]?
-    var gdata : GData?
-}
-
-struct Page {
-    var thumbUrl : String!
-    var url : String!
-}
-
-struct GData {
-    var filecount : Int
-    var rating : Float
-    var tags : [String]
-    var title : String
-    var title_jpn : String
-    var coverUrl : String
-}
-*/
-
 class RequestManager {
 
     //Create a config cookie.

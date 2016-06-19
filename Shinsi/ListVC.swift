@@ -12,7 +12,6 @@ import Kanna
 import Async
 import SDWebImage
 import EZSwiftExtensions
-import MWPhotoBrowser
 import SDWebImage
 import MJRefresh
 import SVProgressHUD
