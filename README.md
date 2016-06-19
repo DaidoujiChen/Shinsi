@@ -15,3 +15,6 @@ Build to your device.
 ### JB device. 
 You need install AppSync.
 Then sync [ipa](https://github.com/powhu/Shinsi/releases/download/0.7.1/Shinsi.ipa) to your device using iTunes.
+
+##Cann't login
+Use browser logout your e-hentai account and login again.
